@@ -2,9 +2,9 @@
   "name": "google-drive-backend",
   "version": "1.0.0",
   "description": "Backend for Google Drive clone",
-  "main": "iserver/ndex.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node server/index.js"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",

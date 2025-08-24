@@ -1,4 +1,4 @@
-// server/index.js  (CommonJS)
+// index.js (at repo root)
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
@@ -8,14 +8,13 @@ const PORT = process.env.PORT || 3001;
 
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://skystash-frontend.onrender.com', // update if your frontend URL changes
+  'https://skystash-frontend.onrender.com',
 ];
 
-// Allow our origins + no-origin (health checks, curl, same-host calls)
 const corsOptions = {
-  origin(origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
-    return callback(null, false); // or callback(new Error('Not allowed by CORS'))
+  origin(origin, cb) {
+    if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
+    return cb(null, false);
   },
   credentials: true,
 };
@@ -23,17 +22,16 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-// --- basic routes ---
+// sanity routes
 app.get('/', (_req, res) => res.send('SkyStash API is running'));
 app.get('/healthz', (_req, res) => res.send('ok'));
 
-// --- API routes ---
+// your API routes
+// const authRoutes = require('./routes/auth');
+// app.use('/api/auth', authRoutes);
 const fileRoutes = require('./routes/files');
 const shareRoutes = require('./routes/shares');
 const metaRoutes  = require('./routes/meta');
-// const authRoutes = require('./routes/auth'); // add back when you implement
-
-// app.use('/api/auth', authRoutes);
 app.use('/api/files', fileRoutes);
 app.use('/api/shares', shareRoutes);
 app.use('/api/meta',  metaRoutes);
